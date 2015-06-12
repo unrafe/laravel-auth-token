@@ -7,7 +7,7 @@
 
 namespace Tappleby\AuthToken;
 
-use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\UserProviderInterface;
 use Tappleby\AuthToken\Exceptions\NotAuthorizedException;
 
@@ -43,7 +43,7 @@ class AuthTokenDriver {
    * Validates a public auth token. Returns User object on success, otherwise false.
    *
    * @param $authTokenPayload
-   * @return bool|UserInterface
+   * @return bool|Authenticatable
    */
   public function validate($authTokenPayload) {
 
@@ -75,7 +75,7 @@ class AuthTokenDriver {
   public function attempt(array $credentials) {
     $user = $this->users->retrieveByCredentials($credentials);
 
-    if($user instanceof UserInterface && $this->users->validateCredentials($user, $credentials)) {
+    if($user instanceof Authenticatable && $this->users->validateCredentials($user, $credentials)) {
        return $this->create($user);
     }
 
@@ -85,10 +85,10 @@ class AuthTokenDriver {
   /**
    * Create auth token for user.
    *
-   * @param UserInterface $user
+   * @param Authenticatable $user
    * @return bool|AuthToken
    */
-  public function create(UserInterface $user) {
+  public function create(Authenticatable $user) {
     $this->tokens->purge($user);
     return $this->tokens->create($user);
   }
@@ -97,7 +97,7 @@ class AuthTokenDriver {
    * Retrive user from auth token.
    *
    * @param AuthToken $token
-   * @return UserInterface|null
+   * @return Authenticatable|null
    */
   public function user(AuthToken $token) {
     return $this->users->retrieveByID( $token->getAuthIdentifier() );

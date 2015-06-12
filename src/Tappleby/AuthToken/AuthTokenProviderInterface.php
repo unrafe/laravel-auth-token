@@ -10,7 +10,7 @@
 namespace Tappleby\AuthToken;
 
 
-use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Authenticatable;
 
 /**
  * Class AuthTokenProviderInterface
@@ -22,10 +22,10 @@ interface AuthTokenProviderInterface {
   /**
    * Creates an auth token for user.
    *
-   * @param \Illuminate\Auth\UserInterface $user
+   * @param \Illuminate\Auth\Authenticatable $user
    * @return \TAppleby\AuthToken\AuthToken|false
    */
-  public function create(UserInterface $user);
+  public function create(Authenticatable $user);
 
 
   /**
@@ -53,7 +53,7 @@ interface AuthTokenProviderInterface {
   public function deserializeToken($payload);
 
   /**
-   * @param mixed|\Illuminate\Auth\UserInterface $identifier
+   * @param mixed|\Illuminate\Auth\Authenticatable $identifier
    * @return bool
    */
   public function purge($identifier);

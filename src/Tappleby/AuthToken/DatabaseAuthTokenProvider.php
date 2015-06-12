@@ -7,7 +7,7 @@
 
 namespace Tappleby\AuthToken;
 
-use \Illuminate\Auth\Authenticatable;
+use \Illuminate\Contracts\Auth\Authenticatable;
 use \Illuminate\Database\Connection;
 use Illuminate\Encryption\Encrypter;
 
@@ -51,7 +51,7 @@ class DatabaseAuthTokenProvider extends AbstractAuthTokenProvider {
   /**
    * Creates an auth token for user.
    *
-   * @param \Illuminate\Auth\Authenticatable $user
+   * @param \Illuminate\Contracts\Auth\Authenticatable $user
    * @return \TAppleby\AuthToken\AuthToken|false
    */
   public function create(Authenticatable $user)
@@ -105,7 +105,7 @@ class DatabaseAuthTokenProvider extends AbstractAuthTokenProvider {
   }
 
   /**
-   * @param mixed|\Illuminate\Auth\Authenticatable $identifier
+   * @param mixed|\Illuminate\Contracts\Auth\Authenticatable $identifier
    * @return bool
    */
   public function purge($identifier)

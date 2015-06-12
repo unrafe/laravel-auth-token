@@ -7,8 +7,8 @@
 
 namespace Tappleby\AuthToken;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Auth\UserProviderInterface;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\UserProvider;
 use Tappleby\AuthToken\Exceptions\NotAuthorizedException;
 
 class AuthTokenDriver {
@@ -18,11 +18,11 @@ class AuthTokenDriver {
   protected $tokens;
 
   /**
-   * @var \Illuminate\Auth\UserProviderInterface
+   * @var Illuminate\Contracts\Auth\UserProvider
    */
   protected $users;
 
-  function __construct(AuthTokenProviderInterface $tokens, UserProviderInterface $users)
+  function __construct(AuthTokenProviderInterface $tokens, UserProvider $users)
   {
     $this->tokens = $tokens;
     $this->users = $users;

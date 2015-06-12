@@ -1,10 +1,8 @@
-# Laravel 4 Auth token
+# Laravel 5 Auth token
 
 Hooks into the laravel auth module and provides an auth token upon success. This token is really only secure in https environment. This main purpose for this module was to provide an auth token to javascript web app which could be used to identify users on api calls.
 
 [![Build Status](https://travis-ci.org/tappleby/laravel-auth-token.png?branch=master)](https://travis-ci.org/tappleby/laravel-auth-token)
-
-Upgrading to Laravel 4.1?, see the [breaking changes](#changes) 
 
 ## Getting Started
 
@@ -14,7 +12,7 @@ Add the package to your `composer.json`, run a `composer update`
 
     "require": {
 		...
-        "tappleby/laravel-auth-token": "0.3.*"
+        "tappleby/laravel-auth-token": "0.4.*"
     }
 
 Add the service provider to `app/config/app.php`

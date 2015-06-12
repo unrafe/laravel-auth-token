@@ -16,12 +16,12 @@ class AuthTokenServiceProvider extends ServiceProvider
 	{
 		// Publish a config file
 		$this->publishes([
-		    __DIR__.'/../config/config.php' => config_path('authtoken.php')
+		    __DIR__.'/../../config/config.php' => config_path('authtoken.php')
 		], 'config');
 
 		// Publish your migrations
 		$this->publishes([
-		    __DIR__.'/../migrations/' => database_path('/migrations')
+		    __DIR__.'/../../migrations/' => database_path('/migrations')
 		], 'migrations');
 
 		$this->app['router']->filter('auth.token', 'tappleby.auth.token.filter');

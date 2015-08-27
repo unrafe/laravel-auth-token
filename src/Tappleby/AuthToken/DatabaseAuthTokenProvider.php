@@ -52,9 +52,10 @@ class DatabaseAuthTokenProvider extends AbstractAuthTokenProvider {
    * Creates an auth token for user.
    *
    * @param \Illuminate\Contracts\Auth\Authenticatable $user
+   * @param  Timeout duration in minutes. Default Value longSessionTimeout.
    * @return \TAppleby\AuthToken\AuthToken|false
    */
-  public function create(Authenticatable $user)
+  public function create(Authenticatable $user, $minutes = null)
   {
     if($user == null || $user->getAuthIdentifier() == null) {
       return false;
@@ -116,6 +117,29 @@ class DatabaseAuthTokenProvider extends AbstractAuthTokenProvider {
 
     $res = $this->db()->where('auth_identifier', $identifier)->delete();
 
+    return $res > 0;
+  }
+
+  /**
+   * Finds an auth token and deleted if exists
+   * @param  $serializedAuthToken
+   * @return bool True if existed and deleted the token otherwise false
+   */
+  public function delete($serializedAuthToken){
+    $authToken = $this->deserializeToken($serializedAuthToken);
+
+    if($authToken == null) {
+      return false;
+    }
+
+    if(!$this->verifyAuthToken($authToken)) {
+      return false;
+    }
+
+    $res = $this->db()->where('auth_identifier', $authToken->getAuthIdentifier())
+                ->where('public_key', $authToken->getPublicKey())
+                ->where('private_key', $authToken->getPrivateKey())
+                ->delete();
     return $res > 0;
   }
 }

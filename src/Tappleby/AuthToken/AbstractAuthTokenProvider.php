@@ -24,6 +24,12 @@ abstract class AbstractAuthTokenProvider implements AuthTokenProviderInterface {
   protected $hasher;
 
   /**
+   * Duration in minutes of a long session token
+   * @var integer
+   */
+  protected $longSessionTimeout;
+
+  /**
    * @return \Tappleby\AuthToken\HashProvider
    */
   public function getHasher()
@@ -31,13 +37,13 @@ abstract class AbstractAuthTokenProvider implements AuthTokenProviderInterface {
     return $this->hasher;
   }
 
-
   /**
    * @param Encrypter $encrypter
    * @param HashProvider $hasher
    */
   function __construct(Encrypter $encrypter, HashProvider $hasher)
   {
+    $this->longSessionTimeout = 216000;
     $this->encrypter = $encrypter;
     $this->hasher = $hasher;
   }
@@ -56,8 +62,6 @@ abstract class AbstractAuthTokenProvider implements AuthTokenProviderInterface {
   protected function verifyAuthToken(AuthToken $token) {
     return $this->hasher->check($token->getPublicKey(), $token->getPrivateKey());
   }
-
-
 
   /**
    * Returns serialized token.
@@ -100,5 +104,20 @@ abstract class AbstractAuthTokenProvider implements AuthTokenProviderInterface {
     $token->setAuthIdentifier($data['id']);
 
     return $token;
+  }
+
+  /**
+   * Refresh an existing token given its payload
+   * @param  User owner of the token 
+   * @param  String $payload 
+   * @param  Timeout duration in minutes. Default Value LONG_SESSION_DURATION.
+   * @return String new Serialized token
+   */
+  public function refreshToken(Authenticatable $user, $payload, $minutes = null){
+    if($this->delete($payload)){
+      $token = $this->create($user, $minutes);
+      return $this->serializeToken($token);
+    }
+    return null;
   }
 }

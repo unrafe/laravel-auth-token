@@ -14,7 +14,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * Class AuthTokenProviderInterface
- * @package Tappleby\AuthToken
+ * @package App\AuthToken
  */
 interface AuthTokenProviderInterface {
 
@@ -22,17 +22,18 @@ interface AuthTokenProviderInterface {
   /**
    * Creates an auth token for user.
    *
-   * @param \Illuminate\Contracts\Auth\Authenticatable $user
-   * @return \TAppleby\AuthToken\AuthToken|false
+   * @param Illuminate\Contracts\Auth\Authenticatable $user
+   * @param  Timeout duration in minutes. Default Value longSessionTimeout.
+   * @return \App\AuthToken\AuthToken|false
    */
-  public function create(Authenticatable $user);
+  public function create(Authenticatable $user, $minutes = null);
 
 
   /**
    * Find user id from auth token.
    *
    * @param $serializedAuthToken string
-   * @return \TAppleby\AuthToken\AuthToken|null
+   * @return \App\AuthToken\AuthToken|null
    */
   public function find($serializedAuthToken);
 
@@ -57,4 +58,20 @@ interface AuthTokenProviderInterface {
    * @return bool
    */
   public function purge($identifier);
+
+  /**
+   * Finds an auth token and deleted if exists
+   * @param  $serializedAuthToken []
+   * @return bool True if existed and deleted the token otherwise false
+   */
+  public function delete($serializedAuthToken);
+
+  /**
+   * Refresh an existing token given its payload
+   * @param  User owner of the token 
+   * @param  String $payload 
+   * @param  Timeout duration in minutes. Default Value longSessionTimeout.
+   * @return String new Serialized token
+   */
+  public function refreshToken(Authenticatable $user, $payload, $minutes = null);
 }

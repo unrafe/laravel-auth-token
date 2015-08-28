@@ -28,7 +28,7 @@ class AuthTokenManager extends Manager {
   }
 
   protected function createCacheDriver() {
-    $provider = $this->createDatabaseProvider();
+    $provider = $this->createCacheProvider();
     $users = $this->app['auth']->driver()->getProvider();
 
     return new AuthTokenDriver($provider, $users);

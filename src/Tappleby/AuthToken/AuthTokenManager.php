@@ -37,7 +37,7 @@ class AuthTokenManager extends Manager {
   protected function createCacheProvider() {
     $encrypter = $this->app['encrypter'];
     $hasher = new HashProvider($this->app['config']['app.key']);
-    return new CacheAuthTokenProvidere($encrypter, $hasher);
+    return new CacheAuthTokenProvider($encrypter, $hasher);
   }
 
   public function getDefaultDriver() {

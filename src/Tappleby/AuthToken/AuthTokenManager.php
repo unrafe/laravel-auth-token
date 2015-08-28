@@ -27,7 +27,20 @@ class AuthTokenManager extends Manager {
     return new DatabaseAuthTokenProvider($connection, 'ta_auth_tokens', $encrypter, $hasher);
   }
 
+  protected function createCacheDriver() {
+    $provider = $this->createDatabaseProvider();
+    $users = $this->app['auth']->driver()->getProvider();
+
+    return new AuthTokenDriver($provider, $users);
+  }
+
+  protected function createCacheProvider() {
+    $encrypter = $this->app['encrypter'];
+    $hasher = new HashProvider($this->app['config']['app.key']);
+    return new CacheAuthTokenProvidere($encrypter, $hasher);
+  }
+
   public function getDefaultDriver() {
-    return 'database';
+    return 'cache';
   }
 }

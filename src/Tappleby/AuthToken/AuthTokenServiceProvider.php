@@ -24,7 +24,7 @@ class AuthTokenServiceProvider extends ServiceProvider
 		    __DIR__.'/../../migrations/' => database_path('/migrations')
 		], 'migrations');
 
-		$this->app['router']->filter('auth.token', 'tappleby.auth.token.filter');
+		$this->app['router']->middleware('auth.token',AuthTokenMiddleware::class);
 	}
 
 
@@ -39,13 +39,6 @@ class AuthTokenServiceProvider extends ServiceProvider
 
 		$app->bindShared('tappleby.auth.token', function ($app) {
 			return new AuthTokenManager($app);
-		});
-
-		$app->bindShared('tappleby.auth.token.filter', function ($app) {
-			$driver = $app['tappleby.auth.token']->driver();
-      $events = $app['events'];
-
-      return new AuthTokenFilter($driver, $events);
 		});
 
 		$app->bind('Tappleby\AuthToken\AuthTokenController', function ($app) {
@@ -64,7 +57,7 @@ class AuthTokenServiceProvider extends ServiceProvider
 	 */
 	public function provides()
 	{
-		return array('tappleby.auth.token', 'tappleby.auth.token.filter');
+		return array('tappleby.auth.token');
 	}
 
 }

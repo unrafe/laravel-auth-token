@@ -41,6 +41,10 @@ class AuthTokenServiceProvider extends ServiceProvider
 			return new AuthTokenManager($app);
 		});
 
+		$app->bindShared('Tappleby\AuthToken\AuthTokenDriver', function ($app) {
+        return $app['tappleby.auth.token']->driver();
+    });
+
 		$app->bind('Tappleby\AuthToken\AuthTokenController', function ($app) {
 			$driver = $app['tappleby.auth.token']->driver();
 			$credsFormatter = $app['config']->get('laravel-auth-token::format_credentials', null);

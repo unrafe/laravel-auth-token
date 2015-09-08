@@ -3,7 +3,7 @@ namespace Tappleby\AuthToken;
 
 use Closure;
 use Illuminate\Events\Dispatcher;
-use App\AuthToken\Exceptions\NotAuthorizedException;
+use Tappleby\AuthToken\Exceptions\NotAuthorizedException;
 use Auth;
 
 class AuthTokenMiddleware{

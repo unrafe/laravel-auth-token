@@ -103,6 +103,16 @@ class AuthTokenDriver {
   }
 
   /**
+   * Removes all the tokens of an user.
+   *
+   * @param Authenticatable $user
+   * @return bool
+   */
+  public function purge(Authenticatable $user) {
+    return $this->tokens->purge($user);
+  }
+
+  /**
    * Serialize token for public use.
    *
    * @param AuthToken $token

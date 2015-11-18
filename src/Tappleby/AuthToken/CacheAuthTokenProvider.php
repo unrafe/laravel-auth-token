@@ -79,7 +79,7 @@ class CacheAuthTokenProvider extends AbstractAuthTokenProvider {
     if($identifier instanceof Authenticatable) {
       $identifier = $identifier->getAuthIdentifier();
     }
-    Cache::tags(['AUTHTOKEN', $identifier])->flush();
+    Cache::tags([$identifier])->flush();
     return true;
   }
 
